@@ -1,0 +1,21 @@
+﻿@model Recipe
+
+
+<h2>Recipe name: @Model.Name</h2>
+<p>Recipe description/instructions: @Model.Description</p>
+
+<p>
+    @foreach (RecipeIngredient ri in Model.RecipeIngredients)
+    {
+        <table>
+            <tr>
+                <td>@ri.IngredientAmount @ri.IngredientAmountSuffix</td>
+                <td><a href="/Ingredients/Show/@ri.IngredientId">@ri.IngredientName</a></td>
+            </tr>
+        </table>
+    }
+</p>
+
+<p>
+    <a href="/Recipes/Edit/@Model.Id">Click here to edit this recipe.</a>
+</p>

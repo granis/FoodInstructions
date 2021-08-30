@@ -1,0 +1,30 @@
+﻿@model List<Ingredient>
+<h1 class="display-4">Create new recipe</h1>
+
+<form id="form-create-recipe" action="/Recipes/Create" method="post">
+    <input type="text" name="Name" placeholder="Name of your recipe" />
+    <textarea name="Description" placeholder="Your description and instructions for this recipe"></textarea>
+
+
+    <div id="form-recipe-ingredients">
+        @* It seems to be possible/prefered to use @Html.EditorFor to generate form inputs with []-index, but we havent learned those yet!
+            I assume this also would require some js-regexp ninjaing for the edit-page to re-index any removed recipeingredients.. *@
+        <div class="form-recipe-ingredient">
+            <select name="RecipeIngredients[##index##].IngredientId">
+                @foreach (Ingredient ingredient in Model)
+                {
+                    <option value="@ingredient.Id">@ingredient.Name</option>
+                }
+            </select>
+            <input type="number" placeholder="amount" name="RecipeIngredients[##index##].IngredientAmount" />
+            <input type="text" placeholder="unit/suffix" name="RecipeIngredients[##index##].IngredientAmountSuffix" />
+            <button type="button" onClick="removeThisIngredient(this)" class="delete-ingredient-button">remove</button>
+        </div>
+    </div>
+
+
+    <button id="form-recipe-ingredient-add-button" type="button">Add another ingredient</button>
+    <button type="submit">Create recipe</button>
+</form>
+
+<p>Did you know: you can <a href="/Ingredients/Create">create more ingredients here.</a></p>

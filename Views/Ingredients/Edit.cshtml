@@ -1,0 +1,17 @@
+﻿@model Ingredient
+
+<h1 class="display-4">Editing ingredient '@Model.Name'</h1>
+<form action="/Ingredients/Edit/@Model.Id" method="post">
+    <input type="text" name="name" value="@Model.Name" />
+    <input type="text" name="taste" value="@Model.Taste" />
+    <button>Save</button>
+</form>
+
+<hr />
+
+<p>You may also delete this ingredient.</p>
+<p><b>Warning: </b>If you delete this ingredient, recipes may become incomplete.</p>
+
+<form action="/Ingredients/Delete/@Model.Id" method="post">
+    <button>DELETE</button>
+</form>

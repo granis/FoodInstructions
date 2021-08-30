@@ -1,0 +1,15 @@
+﻿@model List<Recipe>
+@{
+    ViewData["Title"] = "Recipes";
+}
+
+@foreach (Recipe recipe in Model)
+{
+    <p>
+        <h4><a href="/Recipes/Show/@recipe.Id">@recipe.Name</a></h4>
+        @recipe.Description
+    </p>
+}
+
+
+<a href="/Recipes/Create">Click here to create a new recipe</a>

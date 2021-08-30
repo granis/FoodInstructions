@@ -1,0 +1,55 @@
+﻿@model RecipeEditViewModel
+<h1 class="display-4">Edit the recipe: @Model.Recipe.Name</h1>
+
+<form id="form-create-recipe" action="/Recipes/Edit/@Model.Recipe.Id" method="post">
+    <input type="text" name="Name" value="@Model.Recipe.Name" placeholder="Name of your recipe" />
+    <textarea name="Description" placeholder="Your description and instructions for this recipe">@Model.Recipe.Description</textarea>
+
+
+    <div id="form-recipe-ingredients">
+        @* It seems to be possible/prefered to use @Html.EditorFor to generate form inputs with []-index, but we havent learned those yet!
+            I assume this also would require some js-regexp ninjaing for the edit-page to re-index any removed recipeingredients.. *@
+
+        @foreach (RecipeIngredient recipeIngredient in Model.Recipe.RecipeIngredients)
+        {
+            <div class="form-recipe-ingredient">
+
+                <select name="RecipeIngredients[##index##].IngredientId">
+                    @foreach (Ingredient ingredient in Model.Ingredients)
+                    {
+                        var isSelected = "";
+                        if (ingredient.Id.ToString() == recipeIngredient.IngredientId)
+                        {
+                            isSelected = "selected";
+                        }
+                        else
+                        {
+                            isSelected = "";
+                        }
+                        @:<option value="@ingredient.Id" @isSelected> @ingredient.Name </option>
+                    }
+                </select>
+
+                <input type="number" value="@recipeIngredient.IngredientAmount" placeholder="amount" name="RecipeIngredients[##index##].IngredientAmount" />
+                <input type="text" value="@recipeIngredient.IngredientAmountSuffix" placeholder="unit/suffix" name="RecipeIngredients[##index##].IngredientAmountSuffix" />
+                <button type="button" onClick="removeThisIngredient(this)" class="delete-ingredient-button">remove</button>
+            </div>
+        }
+    </div>
+
+
+    <button id="form-recipe-ingredient-add-button" type="button">Add another ingredient</button>
+    <button type="submit">Save recipe</button>
+</form>
+
+
+<p>Did you know: you can <a href="/Ingredients/Create">create more ingredients here.</a></p>
+
+<hr />
+
+<p>You may also delete this recipe.</p>
+<p><b>Warning: </b>If you delete this recipe, it will be gone.</p>
+
+<form action="/Recipes/Delete/@Model.Recipe.Id" method="post">
+    <button>DELETE</button>
+</form>
